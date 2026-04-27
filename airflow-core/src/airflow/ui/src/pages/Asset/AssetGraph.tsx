@@ -25,10 +25,12 @@ import type { AssetResponse } from "openapi/requests/types.gen";
 import { DownloadButton } from "src/components/Graph/DownloadButton";
 import { edgeTypes, nodeTypes } from "src/components/Graph/graphTypes";
 import type { CustomNodeProps } from "src/components/Graph/reactflowUtils";
-import { useGraphLayout } from "src/components/Graph/useGraphLayout";
+import { Direction, useGraphLayout } from "src/components/Graph/useGraphLayout";
 import { useColorMode } from "src/context/colorMode";
 import { useDependencyGraph } from "src/queries/useDependencyGraph";
 import { getReactFlowThemeStyle } from "src/theme";
+import { useLocalStorage } from "usehooks-ts";
+import { directionKey } from "src/constants/localStorage";
 
 export const AssetGraph = ({
   asset,
@@ -44,10 +46,12 @@ export const AssetGraph = ({
   const { data: graphData = { edges: [], nodes: [] } } = useDependencyGraph(`asset:${assetId}`, {
     dependencyType,
   });
+  
+  const [direction] = useLocalStorage<Direction>(directionKey(assetId ?? ""),"RIGHT");
 
   const { data: layoutData } = useGraphLayout({
     ...graphData,
-    direction: "RIGHT",
+    direction,
     openGroupIds: [],
   });
 
