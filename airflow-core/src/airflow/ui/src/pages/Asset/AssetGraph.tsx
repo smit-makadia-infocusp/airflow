@@ -25,12 +25,13 @@ import type { AssetResponse } from "openapi/requests/types.gen";
 import { DownloadButton } from "src/components/Graph/DownloadButton";
 import { edgeTypes, nodeTypes } from "src/components/Graph/graphTypes";
 import type { CustomNodeProps } from "src/components/Graph/reactflowUtils";
-import { Direction, useGraphLayout } from "src/components/Graph/useGraphLayout";
+import { useGraphLayout } from "src/components/Graph/useGraphLayout";
 import { useColorMode } from "src/context/colorMode";
 import { useDependencyGraph } from "src/queries/useDependencyGraph";
 import { getReactFlowThemeStyle } from "src/theme";
 import { useLocalStorage } from "usehooks-ts";
 import { directionKey } from "src/constants/localStorage";
+import { type Direction } from "src/components/Graph/DirectionDropdown";
 
 export const AssetGraph = ({
   asset,

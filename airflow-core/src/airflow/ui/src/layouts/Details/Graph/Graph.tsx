@@ -37,7 +37,7 @@ import { useDagRunServiceGetDagRun, useStructureServiceStructureData } from "ope
 import { DownloadButton } from "src/components/Graph/DownloadButton";
 import { edgeTypes, nodeTypes } from "src/components/Graph/graphTypes";
 import type { CustomNodeProps } from "src/components/Graph/reactflowUtils";
-import { type Direction, useGraphLayout } from "src/components/Graph/useGraphLayout";
+import { useGraphLayout } from "src/components/Graph/useGraphLayout";
 import { dependenciesKey, directionKey } from "src/constants/localStorage";
 import { useColorMode } from "src/context/colorMode";
 import { useOpenGroups } from "src/context/openGroups";
@@ -46,6 +46,7 @@ import { flattenGraphNodes } from "src/layouts/Details/Grid/utils.ts";
 import { useDependencyGraph } from "src/queries/useDependencyGraph";
 import { useGridTiSummariesStream } from "src/queries/useGridTISummaries.ts";
 import { getReactFlowThemeStyle } from "src/theme";
+import { type Direction } from "src/components/Graph/DirectionDropdown";
 
 // Hoisted to module scope so ReactFlow receives a stable reference and skips
 // its internal shallow-equality check on every render.

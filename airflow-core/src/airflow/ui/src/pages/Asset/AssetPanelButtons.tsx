@@ -24,15 +24,11 @@ import {
   IconButton,
   Popover,
   Portal,
-  Select,
-  type SelectValueChangeDetails,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { directionOptions, type Direction } from "src/components/Graph/useGraphLayout";
 import { MdSettings } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import { useLocalStorage } from "usehooks-ts";
-import { directionKey } from "src/constants/localStorage";
+import { DirectionDropdown } from "src/components/Graph/DirectionDropdown";
 
 type Props = {
   readonly dependencyType: "data" | "scheduling";
@@ -42,15 +38,6 @@ type Props = {
 export const AssetPanelButtons = ({ dependencyType, setDependencyType }: Props) => {
   const { t: translate } = useTranslation(["assets"]);
   const { assetId } = useParams();
-  const [direction, setDirection] = useLocalStorage<Direction>(directionKey(assetId ?? ""), "RIGHT");
-
-  const handleDirectionUpdate = (
-      event: SelectValueChangeDetails<{ label: string; value: Array<string> }>,
-    ) => {
-      if (event.value[0] !== undefined) {
-        setDirection(event.value[0] as Direction);
-      }
-    };
 
   return (
     <Box borderRadius="md" position="absolute" px={2} py={1} right={2} top={1} zIndex={1}>
@@ -97,34 +84,7 @@ export const AssetPanelButtons = ({ dependencyType, setDependencyType }: Props) 
                   overflowY="auto"
                   p={2}
                 >
-                  <Select.Root
-                    // @ts-expect-error The expected option type is incorrect
-                    collection={directionOptions(translate)}
-                    onValueChange={handleDirectionUpdate}
-                    size="sm"
-                    value={[direction]}
-                  >
-                    <Select.Label fontSize="xs">
-                      {translate("dag:panel.graphDirection.label")}
-                    </Select.Label>
-                    <Select.Control>
-                      <Select.Trigger>
-                        <Select.ValueText />
-                      </Select.Trigger>
-                      <Select.IndicatorGroup>
-                        <Select.Indicator />
-                      </Select.IndicatorGroup>
-                    </Select.Control>
-                    <Select.Positioner>
-                      <Select.Content>
-                        {directionOptions(translate).items.map((option) => (
-                          <Select.Item item={option} key={option.value}>
-                            {option.label}
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Positioner>
-                  </Select.Root>
+                  <DirectionDropdown graphId={assetId ?? ""} />
                 </Popover.Body>
               </Popover.Content>
             </Popover.Positioner>
